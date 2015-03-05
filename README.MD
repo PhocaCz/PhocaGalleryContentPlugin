@@ -1,0 +1,1 @@
+Phoca Gallery Content Plugin is Joomla! CMS extension. Plugin which displays images of Phoca Gallery component in article.
