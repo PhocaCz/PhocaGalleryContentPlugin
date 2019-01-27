@@ -1,0 +1,16 @@
+{
+	"author": "Jan Pavelka (www.phoca.cz)",
+	"authorUrl": "https://www.phoca.cz",
+	"copyright": "Jan Pavelka",
+	"license": "GNU/GPL",
+	"projectName": "PhocaGalleryContentPlugin",
+	"extensionName": "Phoca Gallery Content Plugin",
+	"projectInitials" : "PG",				  
+	"description": "Phoca Gallery Content plugin is a Joomla! plugin which displays categories or images of Phoca Gallery in article content.",
+	"projectUrl": "https://www.phoca.cz/phocagallery-plugin",
+	"projectDocumentationUrl": "https://www.phoca.cz/documentation/category/14-phoca-gallery-plugin",
+	"projectDemo" : {
+		"Joomla! 1.5 Demo": "https://www.phoca.cz/demo/"
+	},
+	"projectColor": "#95313e"
+}
