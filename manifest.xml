@@ -2,7 +2,7 @@
 	<update>
 		<name><![CDATA[ Phoca Gallery Content Plugin ]]></name>
 		<description><![CDATA[ Phoca Gallery Content plugin is a Joomla! plugin which displays categories or images of Phoca Gallery in article content. ]]></description>
-		<element>plg_content_phocagallery</element>
+		<element>phocagallery</element>
 		<folder>content</folder>
 		<type>plugin</type>
 		<version>4.3.11</version>
@@ -17,6 +17,6 @@
 		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
 		<targetplatform name="joomla" version="3.9"/>
-		<client>1</client>
+		<client>0</client>
 	</update>
 </updates>
