@@ -9,6 +9,8 @@
 	"description": "Phoca Gallery Content plugin is a Joomla! plugin which displays categories or images of Phoca Gallery in article content.",
 	"projectUrl": "https://www.phoca.cz/phocagallery-plugin",
 	"projectDocumentationUrl": "https://www.phoca.cz/documentation/category/14-phoca-gallery-plugin",
+	"projectMainComponent": "Phoca Gallery",
+	"projectMainComponentInfoUrl": "https://www.phoca.cz/project/phocagallery-joomla-gallery",
 	"projectDemo" : {
 		"Joomla! 1.5 Demo": "https://www.phoca.cz/demo/"
 	},
