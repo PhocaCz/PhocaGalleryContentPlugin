@@ -493,8 +493,8 @@ $btn->extension				= 'Pl';
 				. ' AND cc.published = 1'
 				. ' AND cc.approved = 1'
 				. ' AND a.approved = 1'
-                . ' AND a.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')'
-                . ' AND cc.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')'
+                . ' AND a.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')'
+                . ' AND cc.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')'
                 . $hideCatSql
 				. $uniqueCatSql
 				. ' GROUP BY cc.id'
@@ -505,7 +505,7 @@ $btn->extension				= 'Pl';
 				. ' FROM #__phocagallery_categories AS cc'
 				. ' WHERE cc.published = 1'
 				. ' AND cc.approved = 1'
-                . ' AND cc.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')'
+                . ' AND cc.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')'
 				. ' ORDER BY cc.ordering';
 
 				$data_outcome 		= '';
@@ -562,7 +562,7 @@ $btn->extension				= 'Pl';
 							.' WHERE catid='.$value2->id
 							.' AND published = 1'
 							.' AND approved = 1'
-                            .' AND language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')'
+                            .' AND language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')'
 							.' ORDER BY ordering LIMIT 1';
 							$db->setQuery($queryfn);
 							$outcome_filename	    = $db->loadObjectList();
@@ -688,7 +688,7 @@ $btn->extension				= 'Pl';
 					.' WHERE catid = '.(int) $catid
 					.' AND published = 1'
 					.' AND approved = 1'
-                    .' AND language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')'
+                    .' AND language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')'
 					.' ORDER BY RAND()';
 
 					$db->setQuery($query);
