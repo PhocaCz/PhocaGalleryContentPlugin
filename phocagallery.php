@@ -25,6 +25,9 @@ class plgContentPhocaGallery extends JPlugin
 
 	public function onContentPrepare($context, &$article, &$params, $page = 0) {
 
+		
+		$pasteOneInstanceAtTheEnd = '';
+		
 		// Don't run this plugin when the content is being indexed
 		if ($context == 'com_finder.indexer') {
 			return true;
@@ -1561,10 +1564,11 @@ break;
 				.'</script>';
 			}
 
-			if ($tmpl['detail_window'] == 14) {
-				$output .= PhocaGalleryRenderDetailWindow::loadPhotoswipeBottom();
+			if ($tmpl['detail_window'] == 14 && $this->_plugin_number == 1) {
+				$pasteOneInstanceAtTheEnd = PhocaGalleryRenderDetailWindow::loadPhotoswipeBottom();
 			}
 
+			
 			$article->text = preg_replace($regex_all, $output, $article->text, 1);
 
 			// ADD JAK DATA CSS style
@@ -1606,6 +1610,9 @@ break;
 
 
 	  } // end if count_matches
+	  
+		$article->text = $article->text . $pasteOneInstanceAtTheEnd;
+		
 		return true;
 	}
 }
