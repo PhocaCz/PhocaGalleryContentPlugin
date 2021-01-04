@@ -2,7 +2,7 @@
 
 
 
-![Phoca Gallery Content Plugin](https://github.com/PhocaCz/PhocaGalleryContentPlugin/blob/master/phocagallery.png)
+![Phoca Gallery Content Plugin](https://github.com/PhocaCz/PhocaGalleryContentPlugin/blob/master/phocagallery.png?raw=true)
 
 # Phoca Gallery Content Plugin
 
@@ -23,6 +23,8 @@ Phoca Gallery Content plugin is a Joomla! plugin which displays categories or im
 ## Documentation
 
 [Documentation](https://www.phoca.cz/documentation/category/14-phoca-gallery-plugin)
+
+
 
 
 
@@ -52,7 +54,7 @@ Phoca Gallery Content plugin is a Joomla! plugin which displays categories or im
 
 ## Version
 
-4.3.16
+4.4.0
 
 
 
