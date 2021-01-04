@@ -9,6 +9,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin' );
+use Joomla\CMS\HTML\HTMLHelper;
 
 class plgContentPhocaGallery extends JPlugin
 {
@@ -25,9 +26,9 @@ class plgContentPhocaGallery extends JPlugin
 
 	public function onContentPrepare($context, &$article, &$params, $page = 0) {
 
-		
+
 		$pasteOneInstanceAtTheEnd = '';
-		
+
 		// Don't run this plugin when the content is being indexed
 		if ($context == 'com_finder.indexer') {
 			return true;
@@ -71,7 +72,6 @@ class plgContentPhocaGallery extends JPlugin
 		$user		= JFactory::getUser();
 		$gid 		= $user->get('aid', 0);
 		$db 		= JFactory::getDBO();
-		//$menu 		= &JSite::getMenu();
 		$document	= JFactory::getDocument();
 		$path 		= PhocaGalleryPath::getPath();
 
@@ -1228,7 +1228,8 @@ $btn->extension				= 'Pl';
 									$divPadding = 'padding:0px;margin:0px;';
 								}
 
-								$document->addScript(JURI::base(true).'/components/com_phocagallery/assets/overlib/overlib_mini.js');
+								//$document->addScript(JURI::base(true).'/components/com_phocagallery/assets/overlib/overlib_mini.js');
+								HTMLHelper::_('script', 'media/com_phocagallery/js/overlib/overlib_mini.js', array('version' => 'auto'));
 								$opacityPer = $opacityPer = (float)$tmpl['overliboverlayopacity'] * 100;
 
 								if ( $libraries['pg-overlib-group']->value == 0 ) {
@@ -1568,7 +1569,7 @@ break;
 				$pasteOneInstanceAtTheEnd = PhocaGalleryRenderDetailWindow::loadPhotoswipeBottom();
 			}
 
-			
+
 			$article->text = preg_replace($regex_all, $output, $article->text, 1);
 
 			// ADD JAK DATA CSS style
@@ -1610,9 +1611,9 @@ break;
 
 
 	  } // end if count_matches
-	  
+
 		$article->text = $article->text . $pasteOneInstanceAtTheEnd;
-		
+
 		return true;
 	}
 }
