@@ -54,7 +54,7 @@ Phoca Gallery Content plugin is a Joomla! plugin which displays categories or im
 
 ## Version
 
-4.4.0
+4.4.1
 
 
 

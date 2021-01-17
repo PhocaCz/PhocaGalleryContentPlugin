@@ -194,7 +194,7 @@ class plgContentPhocaGallery extends JPlugin
 			$tmpl['boxplus_duration']			= (int)$paramsC->get( 'boxplus_duration', 250);
 			$tmpl['boxplus_transition']			= $paramsC->get( 'boxplus_transition', 'linear');
 			$tmpl['boxplus_contextmenu']		= (int)$paramsC->get( 'boxplus_contextmenu', 1);
-			$tmpl['photoswipe_display_caption']	= 0;//$paramsC->get( 'photoswipe_display_caption', 0 );
+			$tmpl['photoswipe_display_caption']	= $paramsC->get( 'photoswipe_display_caption', 0 );
 
 			// Component settings - some behaviour is set in component and cannot be set in plugin
 			// but plugin needs to accept it
@@ -1359,8 +1359,31 @@ break;
 							$output .='</a>';
 
 							if ($tmpl['detail_window'] == 14 ) {
+								
+								$photoswipecaption = '';
+								switch ($tmpl['photoswipe_display_caption']) {
+									case 0:
+										$photoswipecaption = '';
+										break;
 
-                                $output .= '<figcaption itemprop="caption description">'. $image->title.'</figcaption>';
+									case 2:
+										$photoswipecaption = PhocaGalleryText::strTrimAll(( $image->description));
+										break;
+
+									case 3:
+										$photoswipecaption = PhocaGalleryText::strTrimAll(($image->title));
+										if ($image->description != '') {
+											$photoswipecaption .='<br />' .PhocaGalleryText::strTrimAll(($image->description));
+										}
+										break;
+
+									case 1:
+									default:
+										$photoswipecaption = PhocaGalleryText::strTrimAll(($image->title));
+										break;
+								}
+
+                                $output .= '<figcaption itemprop="caption description">'. $photoswipecaption.'</figcaption>';
 								$output .= '</figure>';
 							}
 
