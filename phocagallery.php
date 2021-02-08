@@ -482,7 +482,7 @@ $btn->extension				= 'Pl';
 			// by vogo
 			$uniqueCatSql	= '';
 			if ($catid > 0) {
-				$uniqueCatSql	= ' AND cc.id = '. $catid .'';
+				$uniqueCatSql	= ' AND cc.id = '. (int)$catid .'';
 			}
 
 
@@ -562,7 +562,7 @@ $btn->extension				= 'Pl';
 							//FILENAME
 							$queryfn = 'SELECT filename, extm, exts, extw, exth, extid'
 							.' FROM #__phocagallery'
-							.' WHERE catid='.$value2->id
+							.' WHERE catid='.(int)$value2->id
 							.' AND published = 1'
 							.' AND approved = 1'
                             .' AND language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')'
@@ -680,7 +680,7 @@ $btn->extension				= 'Pl';
 
 				// Only one image
 				if ($imageid > 0) {
-					$where = ' AND a.id = '. $imageid;
+					$where = ' AND a.id = '. (int)$imageid;
 				}
 
 				// Random image
@@ -697,7 +697,7 @@ $btn->extension				= 'Pl';
 					$db->setQuery($query);
 					$idQuery =& $db->loadObject();
 					if (!empty($idQuery)) {
-						$where = ' AND a.id = '. $idQuery->id;
+						$where = ' AND a.id = '. (int)$idQuery->id;
 					}
 				}
 
@@ -705,7 +705,7 @@ $btn->extension				= 'Pl';
 
 				// Count of images (LIMIT 0, 20)
 				if ($limitcount > 0) {
-					$limit = ' LIMIT '.$limitstart.', '.$limitcount;
+					$limit = ' LIMIT '.(int)$limitstart.', '.(int)$limitcount;
 				}
 
 			/*	$query = 'SELECT *' .
@@ -1359,7 +1359,7 @@ break;
 							$output .='</a>';
 
 							if ($tmpl['detail_window'] == 14 ) {
-								
+
 								$photoswipecaption = '';
 								switch ($tmpl['photoswipe_display_caption']) {
 									case 0:
