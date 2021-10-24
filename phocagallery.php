@@ -695,7 +695,7 @@ $btn->extension				= 'Pl';
 					.' ORDER BY RAND()';
 
 					$db->setQuery($query);
-					$idQuery =& $db->loadObject();
+					$idQuery = $db->loadObject();
 					if (!empty($idQuery)) {
 						$where = ' AND a.id = '. (int)$idQuery->id;
 					}
@@ -1601,7 +1601,7 @@ break;
 				$scriptJAK = '<script type="text/javascript">'
 				. 'var dataJakJsPl'.$randName.' = [';
 				if (!empty($tmpl['jakdatajs'])) {
-					$scriptJAK .= implode($tmpl['jakdatajs'], ',');
+					$scriptJAK .= implode(',', $tmpl['jakdatajs']);
 				}
 				$scriptJAK .= ']'
 				. '</script>';

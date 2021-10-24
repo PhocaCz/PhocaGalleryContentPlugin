@@ -2,12 +2,12 @@
 <extension type="plugin" group="content" method="upgrade" version="3.9">
 	<name>plg_content_phocagallery</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>08/02/2021</creationDate>
+	<creationDate>24/10/2021</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>4.4.2</version>
+	<version>4.4.3</version>
 	<description>PLG_CONTENT_PHOCAGALLERY_DESCRIPTION</description>
 	<projectName>PhocaGalleryContentPlugin</projectName>
 
