@@ -116,6 +116,7 @@ class plgContentPhocaGallery extends JPlugin
 				// Get plugin parameters from article
 					 if($values[0]=='view')				{$view					= $values[1];}
 				else if($values[0]=='id')				{$id					= $values[1];}
+				else if($values[0]=='categoryid')		{$id					= $values[1];}// Backward compatibility - categoryid is alias for id
 				else if($values[0]=='max')				{$max					= $values[1];}
 			}
 
