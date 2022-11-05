@@ -72,6 +72,7 @@ class plgContentPhocaGallery extends JPlugin
         //$param		= (int)$this->params->get( 'medium_image_width', 100 );
         $detail_window = $this->params->get('detail_window', 1);
         $display_title = $this->params->get('display_title', 1);
+        $photoswipe_display_caption = $this->params->get('photoswipe_display_caption', 1);
 
         // Start Plugin
         $regex_one     = '/({phocagallery\s*)(.*?)(})/si';
@@ -690,6 +691,29 @@ class plgContentPhocaGallery extends JPlugin
                             $o .= $layoutBI->render($d);
 
 
+                            if ($photoswipe_display_caption > 0) {
+
+                                $caption = $v->title;
+
+                                if ($photoswipe_display_caption == 2) {
+                                    $caption = $v->description;
+                                }
+
+                                if ($photoswipe_display_caption == 3) {
+
+                                    $caption = '';
+                                    if ($v->title != '') {
+                                        $caption .= $v->title . '<br>';
+                                    }
+                                    $caption .= $v->description;
+                                }
+
+                                $o .= '<figcaption itemprop="caption description">'.$caption.'</figcaption>';
+                            }
+
+
+                            $o .= '</figure>';
+
                             if ($display_title == 1) {
 
 
@@ -708,12 +732,12 @@ class plgContentPhocaGallery extends JPlugin
 
                                 $o .= '</div>' . "\n";
 
-                                $o .= '<figcaption itemprop="caption description">' . $v->title . '</figcaption>';
+
 
 
 
                             }
-                            $o .= '</figure>';
+
 
 
 
@@ -969,30 +993,28 @@ class plgContentPhocaGallery extends JPlugin
 
 
 
-                            if ($display_title == 1) {
+                            if ($photoswipe_display_caption > 0) {
 
+                                $caption = $v->title;
 
-                            /*    $o .= '<div class="pg-item-box-title image">' . "\n";
-
-                                $o .= '<svg class="ph-si ph-si-image"><use xlink:href="#ph-si-image"></use></svg>' . "\n";
-                                $o .= ' <a class="' . $v->class2 . '" title="' . htmlentities($v->title, ENT_QUOTES, 'UTF-8') . '"'
-                                    . ' data-img-title="' . $v->title . '" href="' . Route::_($v->link2) . '"';
-
-                                if ($v->onclick2 != '') {
-                                    $o .= 'onclick="' . $v->onclick2 . '"';
+                                if ($photoswipe_display_caption == 2) {
+                                    $caption = $v->description;
                                 }
-                                $o .= ' >';
-                                $o .= '' . $v->title . '';
-                                $o .= '</a>';
 
-                                $o .= '</div>' . "\n";*/
+                                if ($photoswipe_display_caption == 3) {
 
-                      ///          $o .= '<figcaption itemprop="caption description">' . $v->title . '</figcaption>';
+                                    $caption = '';
+                                    if ($v->title != '') {
+                                        $caption .= $v->title . '<br>';
+                                    }
+                                    $caption .= $v->description;
+                                }
 
-
-
+                                $o .= '<figcaption itemprop="caption description">'.$caption.'</figcaption>';
                             }
-                           $o .= '</figure>';
+
+
+                            $o .= '</figure>';
 
 
 

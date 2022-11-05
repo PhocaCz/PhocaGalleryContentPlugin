@@ -2,12 +2,12 @@
 <extension type="plugin" group="content" method="upgrade" version="4.0">
 	<name>plg_content_phocagallery</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>18/10/2022</creationDate>
+	<creationDate>26/10/2022</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>4.5.2</version>
+	<version>4.5.3</version>
 	<description>PLG_CONTENT_PHOCAGALLERY_DESCRIPTION</description>
 	<projectName>PhocaGalleryContentPlugin</projectName>
 
@@ -18,10 +18,8 @@
 
 	<files>
 		<filename plugin="phocagallery">index.html</filename>
-		<filename plugin="phocagallery">phocagallery_masonry.php</filename>
 		<filename plugin="phocagallery">phocagallery.php</filename>
 		<filename plugin="phocagallery">manifest.xml</filename>
-		<filename plugin="phocagallery">phocagallery_masonry.xml</filename>
 	</files>
 
 	<languages>
@@ -53,6 +51,13 @@
 <field name="display_title" type="radio" class="btn-group btn-group-yesno" default="0" label="PLG_CONTENT_PHOCAGALLERY_FIELD_DISPLAY_IMAGE_TITLE_LABEL" description="PLG_CONTENT_PHOCAGALLERY_FIELD_DISPLAY_IMAGE_TITLE_DESC">
 	<option value="0">PLG_CONTENT_PHOCAGALLERY_NO</option>
 	<option value="1">PLG_CONTENT_PHOCAGALLERY_YES</option>
+</field>
+
+<field name="photoswipe_display_caption" type="list" default="1" label="PLG_CONTENT_PHOCAGALLERY_FIELD_DISPLAY_CAPTION_LABEL" description="PLG_CONTENT_PHOCAGALLERY_FIELD_DISPLAY_CAPTION_DESC">
+	<option value="1">PLG_CONTENT_PHOCAGALLERY_ONLY_TITLE</option>
+	<option value="2">PLG_CONTENT_PHOCAGALLERY_ONLY_DESCRIPTION</option>
+	<option value="3">PLG_CONTENT_PHOCAGALLERY_TITLE_AND_DESCRIPTION</option>
+	<option value="0">PLG_CONTENT_PHOCAGALLERY_NONE</option>
 </field>
 
 <field name="detail_window" type="radio" class="btn-group btn-group-yesno" default="1" label="PLG_CONTENT_PHOCAGALLERY_FIELD_DETAIL_WINDOW_LABEL" description="PLG_CONTENT_PHOCAGALLERY_FIELD_DETAIL_WINDOW_DESC">
