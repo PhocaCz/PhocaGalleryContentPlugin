@@ -12,6 +12,7 @@
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -66,7 +67,7 @@ class plgContentPhocaGallery extends JPlugin
 
         $db       = Factory::getDBO();
         $document = Factory::getDocument();
-        $user		= JFactory::getUser();
+        $user		= Factory::getUser();
         //$component	= 'com_phocaphoto';
         //$paramsC		= JComponentHelper::getParams($component) ;
         //$param		= (int)$this->params->get( 'medium_image_width', 100 );
@@ -125,6 +126,7 @@ class plgContentPhocaGallery extends JPlugin
                 $view = '';
                 $id   = 0;
                 $max  = 0;
+                $imageid				= 0;
                 $limitstart = 0;
                 $limitcount = 0;
                 $imageordering = 1;
@@ -150,6 +152,7 @@ class plgContentPhocaGallery extends JPlugin
                     if ($values[0] == 'view') {                 $view = $values[1];}
                     else if ($values[0] == 'id') {              $id = $values[1];}
                     else if ($values[0] == 'categoryid') {      $id = $values[1];}// Backward compatibility - categoryid is alias for id
+                    else if($values[0]=='imageid')			{$imageid				= $values[1];}
                     else if ($values[0] == 'max') {             $max = $values[1];}
                     else if ($values[0] == 'limitstart') {             $limitstart = $values[1];}
                     else if ($values[0] == 'limitcount') {             $limitcount = $values[1];}
@@ -348,9 +351,9 @@ class plgContentPhocaGallery extends JPlugin
 
                                     $data_outcome->rightdisplaykey				= $rightDisplayKey;
 
-                                    if (isset($v->image_id) && $item->image_id > 0) {
+                                    if (isset($v->image_id) && $v->image_id > 0) {
                                         // User has selected image in category edit
-                                        $selectedImg = PhocaGalleryImageFront::setFileNameByImageId((int)$item->image_id);
+                                        $selectedImg = PhocaGalleryImageFront::setFileNameByImageId((int)$v->image_id);
 
 
                                         if (isset($selectedImg->filename) && ($selectedImg->filename != '' && $selectedImg->filename != '-')) {
@@ -501,8 +504,16 @@ class plgContentPhocaGallery extends JPlugin
                     $limit = '';
                     $where = '';
 
+                    // Only one image
+                    if ((int)$imageid > 0) {
+                        $where = ' AND a.id = '. $imageid;
+                    }
+
                     // Max is the limit, if limitcount is smaller than max, use the limitcount
                     if ((int)$limitcount < (int)$max) {
+                        $max = $limitcount;
+                    }
+                    if ((int)$limitcount > 0 && (int)$max == 0) {
                         $max = $limitcount;
                     }
 
@@ -510,9 +521,9 @@ class plgContentPhocaGallery extends JPlugin
                         if ($max > 0) {
                             $limit = ' LIMIT '.(int)$limitstart.',' . (int)$max;
                         }
-                        $where = ' AND a.catid = ' . (int)$id;
+                        $where .= ' AND a.catid = ' . (int)$id;
                     } else if ($view == 'image') {
-                        $where = ' AND a.id =' . (int)$id;
+                        $where .= ' AND a.id =' . (int)$id;
                     } else {
                         if ($max > 0) {
                             $limit = ' LIMIT '.(int)$limitstart.',' . (int)$max;
@@ -544,6 +555,8 @@ class plgContentPhocaGallery extends JPlugin
                         //require_once( JPATH_ADMINISTRATOR.'/components/com_phocaphoto/helpers/phocaphoto.php' );
                         //$path = PhocaPhotoHelper::getPath();
 
+
+
                         if ((int)$this->_plugin_number_category_view < 2) {
                             HtmlHelper::_('jquery.framework', false);
 
@@ -559,9 +572,16 @@ class plgContentPhocaGallery extends JPlugin
                                 $document->addScriptDeclaration($js);
                             } else {*/
 
-                            $document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe.css');
-                            $document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/default-skin/default-skin.css');
-                            $document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe-style.css');
+                            //$document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe.css');
+                            //$document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/default-skin/default-skin.css');
+                            //$document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe-style.css');
+
+                            $wa = $document->getWebAssetManager();
+		                    $wa->registerAndUseStyle('plg_content_phocagallery.photoswipe', 'media/com_phocagallery/js/photoswipe/css/photoswipe.css', array('version' => 'auto'));
+                            $wa->registerAndUseStyle('plg_content_phocagallery.photoswipe.default', 'media/com_phocagallery/js/photoswipe/css/default-skin/default-skin.css', array('version' => 'auto'));
+                            $wa->registerAndUseStyle('plg_content_phocagallery.photoswipe.style', 'media/com_phocagallery/js/photoswipe/css/photoswipe-style.css', array('version' => 'auto'));
+
+
                             /*}*/
                         }
 
@@ -762,7 +782,8 @@ class plgContentPhocaGallery extends JPlugin
 
                         if ($i == ($count_matches - 1) && $detail_window == 1) {
                             // Must be at the end
-                            $o .= PhocaGalleryRenderDetailWindow::loadPhotoswipeBottom(1, 1);
+                            $o .= $this->loadPhotoswipeBottomPlugin(1, 1);
+
                         }
                     }
 
@@ -782,6 +803,9 @@ class plgContentPhocaGallery extends JPlugin
 
                     // Max is the limit, if limitcount is smaller than max, use the limitcount
                     if ((int)$limitcount < (int)$max) {
+                        $max = $limitcount;
+                    }
+                    if ((int)$limitcount > 0 && (int)$max == 0) {
                         $max = $limitcount;
                     }
 
@@ -838,9 +862,14 @@ class plgContentPhocaGallery extends JPlugin
                                 $document->addScriptDeclaration($js);
                             } else {*/
 
-                            $document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe.css');
-                            $document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/default-skin/default-skin.css');
-                            $document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe-style.css');
+                            //$document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe.css');
+                           // $document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/default-skin/default-skin.css');
+                            //$document->addStyleSheet(Uri::root(true) . '/media/com_phocagallery/js/photoswipe/css/photoswipe-style.css');
+                            $wa = $document->getWebAssetManager();
+		                    $wa->registerAndUseStyle('plg_content_phocagallery.photoswipe', 'media/com_phocagallery/js/photoswipe/css/photoswipe.css', array('version' => 'auto'));
+                            $wa->registerAndUseStyle('plg_content_phocagallery.photoswipe.default', 'media/com_phocagallery/js/photoswipe/css/default-skin/default-skin.css', array('version' => 'auto'));
+                            $wa->registerAndUseStyle('plg_content_phocagallery.photoswipe.style', 'media/com_phocagallery/js/photoswipe/css/photoswipe-style.css', array('version' => 'auto'));
+
                             /*}*/
                         }
 
@@ -1039,7 +1068,8 @@ class plgContentPhocaGallery extends JPlugin
 
                         if ($i == ($count_matches - 1) && $detail_window == 1) {
                             // Must be at the end
-                            $o .= PhocaGalleryRenderDetailWindow::loadPhotoswipeBottom(1, 1);
+
+                            $o .= $this->loadPhotoswipeBottomPlugin(1, 1);
                         }
                     }
 
@@ -1056,6 +1086,115 @@ class plgContentPhocaGallery extends JPlugin
             return true;
         }
     }
+
+
+    public function loadPhotoswipeBottomPlugin($forceSlideshow = 0, $forceSlideEffect = 0) {
+
+		//$paramsC 				= ComponentHelper::getParams('com_phocagallery') ;
+		$photoswipe_slideshow	= 1;//$paramsC->get( 'photoswipe_slideshow', 1 );
+		$photoswipe_slide_effect= 1;//$paramsC->get( 'photoswipe_slide_effect', 0 );
+
+
+		if ($forceSlideshow == 1) {
+            $photoswipe_slideshow = 1;
+        }
+		if ($forceSlideEffect == 1) {
+		    $photoswipe_slide_effect = 1;
+        }
+
+
+		$o = '<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It\'s a separate element, as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+        <!-- don\'t modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="'.Text::_('COM_PHOCAGALLERY_CLOSE').'"></button>
+
+                <button class="pswp__button pswp__button--share" title="'.Text::_('COM_PHOCAGALLERY_SHARE').'"></button>
+
+                <button class="pswp__button pswp__button--fs" title="'.Text::_('COM_PHOCAGALERY_TOGGLE_FULLSCREEN').'"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="'.Text::_('COM_PHOCAGALLERY_ZOOM_IN_OUT').'"></button>';
+
+				if ($photoswipe_slideshow == 1) {
+					$o .= '<!-- custom slideshow button: -->
+					<button class="pswp__button pswp__button--playpause" title="'.Text::_('COM_PHOCAGALLERY_PLAY_SLIDESHOW').'"></button>
+					<span id="phTxtPlaySlideshow" style="display:none">'.Text::_('COM_PHOCAGALLERY_PLAY_SLIDESHOW').'</span>
+					<span id="phTxtPauseSlideshow" style="display:none">'.Text::_('COM_PHOCAGALLERY_PAUSE_SLIDESHOW').'</span>';
+				}
+
+                $o .= '<!-- Preloader -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="'.Text::_('COM_PHOCAGALLERY_PREVIOUS').'">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="'.Text::_('COM_PHOCAGALLERY_NEXT').'">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+</div>';
+
+
+                $wa = Factory::getDocument()->getWebAssetManager();
+                $wa->registerAndUseScript('plg_content_phocagallery.photoswipe', 'media/com_phocagallery/js/photoswipe/js/photoswipe.min.js', array('version' => 'auto'), ['defer' => true]);
+                $wa->registerAndUseScript('plg_content_phocagallery.photoswipe.default', 'media/com_phocagallery/js/photoswipe/js/photoswipe-ui-default.min.js', array('version' => 'auto'), ['defer' => true]);
+
+
+//$o .=   '<script src="'.Uri::root(true).'/media/com_phocagallery/js/photoswipe/js/photoswipe.min.js"></script>'. "\n"
+//		.'<script src="'.Uri::root(true).'/media/com_phocagallery/js/photoswipe/js/photoswipe-ui-default.min.js"></script>'. "\n";
+
+if ($photoswipe_slide_effect == 1) {
+	//$o .= '<script src="'.Uri::root(true).'/media/com_phocagallery/js/photoswipe/js/photoswipe-initialize-ratio.js"></script>'. "\n";
+    $wa->registerAndUseScript('plg_content_phocagallery.photoswipe.initialize.ratio', 'media/com_phocagallery/js/photoswipe/js/photoswipe-initialize-ratio.js', array('version' => 'auto'), ['defer' => true]);
+} else {
+	//$o .= '<script src="'.Uri::root(true).'/media/com_phocagallery/js/photoswipe/js/photoswipe-initialize.js"></script>'. "\n";
+    $wa->registerAndUseScript('plg_content_phocagallery.photoswipe.initialize.ratio', 'media/com_phocagallery/js/photoswipe/js/photoswipe-initialize.js', array('version' => 'auto'), ['defer' => true]);
+}
+
+		return $o;
+	}
 }
 
 ?>
