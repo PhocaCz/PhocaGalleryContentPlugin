@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -21,10 +22,11 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
 
-class plgContentPhocaGallery extends JPlugin
+class plgContentPhocaGallery extends CMSPlugin
 {
     public $_plugin_number = 0;
     public $_plugin_number_category_view = 0;
+    protected $autoloadLanguage = true;
 
     public function __construct(&$subject, $config) {
         parent::__construct($subject, $config);
@@ -43,7 +45,7 @@ class plgContentPhocaGallery extends JPlugin
     public function onContentPrepare($context, &$article, &$params, $page = 0) {
 
         $app  = Factory::getApplication();
-        $view = $app->input->get('view');
+        $view = $app->getInput()->get('view');
 
         if ($view == 'tag') {
             return;
@@ -59,7 +61,7 @@ class plgContentPhocaGallery extends JPlugin
         }
 
         // Include Phoca Gallery
-        if (!JComponentHelper::isEnabled('com_phocagallery', true)) {
+        if (!ComponentHelper::isEnabled('com_phocagallery', true)) {
             echo '<div class="alert alert-danger">Phoca Gallery Error: Phoca Gallery component is not installed or not published on your system</div>';
             return;
         }
@@ -79,7 +81,7 @@ class plgContentPhocaGallery extends JPlugin
         $regex_one     = '/({phocagallery\s*)(.*?)(})/si';
         $regex_all     = '/{phocagallery\s*.*?}/si';
         $matches       = array();
-        $count_matches = preg_match_all($regex_all, $article->text, $matches, PREG_OFFSET_CAPTURE | PREG_PATTERN_ORDER);
+        $count_matches = preg_match_all($regex_all, (string)$article->text, $matches, PREG_OFFSET_CAPTURE | PREG_PATTERN_ORDER);
 
         $lang = Factory::getLanguage();
         $lang->load('com_phocagallery');
@@ -562,7 +564,7 @@ class plgContentPhocaGallery extends JPlugin
 
                             /*if ($detail_window == 2) {
                                 HtmlHelper::stylesheet( 'media/com_phocaphoto/js/prettyphoto/css/prettyPhoto.css' );
-                                $document->addScript(JURI::root(true).'/media/com_phocaphoto/js/prettyphoto/js/jquery.prettyPhoto.js');
+                                $document->addScript(Uri::root(true).'/media/com_phocaphoto/js/prettyphoto/js/jquery.prettyPhoto.js');
 
                                 $js = "\n". 'jQuery(document).ready(function(){
                                     jQuery("a[rel^=\'prettyPhoto\']").prettyPhoto({'."\n";
@@ -632,11 +634,11 @@ class plgContentPhocaGallery extends JPlugin
                             } else {
                                 $imageMO = PhocaGalleryFileThumbnail::getThumbnailName($v->filename, 'medium');
                                 if (isset($imageMO->rel) && $imageMO->rel != '') {
-                                    $imageM = JURI::base(false) . $imageMO->rel;
+                                    $imageM = Uri::base(false) . $imageMO->rel;
                                 }
                                 $imageLO = PhocaGalleryFileThumbnail::getThumbnailName($v->filename, 'large');
                                 if (isset($imageLO->rel) && $imageLO->rel != '') {
-                                    $imageL = JURI::base(false) . $imageLO->rel;
+                                    $imageL = Uri::base(false) . $imageLO->rel;
                                 }
                             }
 
@@ -852,7 +854,7 @@ class plgContentPhocaGallery extends JPlugin
 
                             /*if ($detail_window == 2) {
                                 HtmlHelper::stylesheet( 'media/com_phocaphoto/js/prettyphoto/css/prettyPhoto.css' );
-                                $document->addScript(JURI::root(true).'/media/com_phocaphoto/js/prettyphoto/js/jquery.prettyPhoto.js');
+                                $document->addScript(Uri::root(true).'/media/com_phocaphoto/js/prettyphoto/js/jquery.prettyPhoto.js');
 
                                 $js = "\n". 'jQuery(document).ready(function(){
                                     jQuery("a[rel^=\'prettyPhoto\']").prettyPhoto({'."\n";
@@ -911,11 +913,11 @@ class plgContentPhocaGallery extends JPlugin
                             } else {
                                 $imageMO = PhocaGalleryFileThumbnail::getThumbnailName($v->filename, 'medium');
                                 if (isset($imageMO->rel) && $imageMO->rel != '') {
-                                    $imageM = JURI::base(false) . $imageMO->rel;
+                                    $imageM = Uri::base(false) . $imageMO->rel;
                                 }
                                 $imageLO = PhocaGalleryFileThumbnail::getThumbnailName($v->filename, 'large');
                                 if (isset($imageLO->rel) && $imageLO->rel != '') {
-                                    $imageL = JURI::base(false) . $imageLO->rel;
+                                    $imageL = Uri::base(false) . $imageLO->rel;
                                 }
                             }
 

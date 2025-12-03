@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <updates>
 	<update>
 		<name><![CDATA[ Phoca Gallery Content Plugin ]]></name>
@@ -36,7 +37,49 @@
 		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
 		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
-		<targetplatform name="joomla" version="4.[012]"/>
+		<targetplatform name="joomla" version="4\.*"/>
+		<client>site</client>
+	</update>
+	<update>
+		<name><![CDATA[ Phoca Gallery Content Plugin ]]></name>
+		<description><![CDATA[ Phoca Gallery Content plugin is a Joomla! plugin which displays categories or images of Phoca Gallery in article content. ]]></description>
+		<element>phocagallery</element>
+		<folder>content</folder>
+		<type>plugin</type>
+		<version>5.0.0</version>
+		<infourl title="Phoca Gallery Content Plugin 5.0.0">https://www.phoca.cz/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaGalleryContentPlugin/releases/download/5.0.0/plg_content_phocagallery_v5.0.0.zip</downloadurl>
+		</downloads>
+		<sha512>bfedd617c554d2f4442a225ca262c8b5609b62edd6ab70bd03274c5d35bec19643883b1358a1d8f3bc66e460bb00ba2f48d98fbe13ebfd924d07bc279e114d46</sha512>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="5\.*"/>
+		<client>site</client>
+	</update>
+	<update>
+		<name><![CDATA[ Phoca Gallery Content Plugin ]]></name>
+		<description><![CDATA[ Phoca Gallery Content plugin is a Joomla! plugin which displays categories or images of Phoca Gallery in article content. ]]></description>
+		<element>phocagallery</element>
+		<folder>content</folder>
+		<type>plugin</type>
+		<version>6.0.0</version>
+		<infourl title="Phoca Gallery Content Plugin 6.0.0">https://www.phoca.cz/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaGalleryContentPlugin/releases/download/6.0.0/plg_content_phocagallery_v6.0.0.zip</downloadurl>
+		</downloads>
+		<sha512>1b0c13d7da9eb745996b379fd2ed424f2bcf7c9a39bfd2ea61c233350fc5365ae5451711b3a065e314258b988b7aac29a36cce03312ee217e62ea185dd342c1d</sha512>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="(5|6)\.*"/>
 		<client>site</client>
 	</update>
 </updates>
