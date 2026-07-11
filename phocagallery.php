@@ -127,6 +127,7 @@ class plgContentPhocaGallery extends CMSPlugin
                 // Plugin variables
                 $view = '';
                 $id   = 0;
+                $category_alias   = '';
                 $max  = 0;
                 $imageid				= 0;
                 $limitstart = 0;
@@ -154,7 +155,8 @@ class plgContentPhocaGallery extends CMSPlugin
                     if ($values[0] == 'view') {                 $view = $values[1];}
                     else if ($values[0] == 'id') {              $id = $values[1];}
                     else if ($values[0] == 'categoryid') {      $id = $values[1];}// Backward compatibility - categoryid is alias for id
-                    else if($values[0]=='imageid')			{$imageid				= $values[1];}
+                    else if ($values[0] == 'alias') {           $category_alias = $values[1];}
+                    else if ($values[0]=='imageid')			{$imageid				= $values[1];}
                     else if ($values[0] == 'max') {             $max = $values[1];}
                     else if ($values[0] == 'limitstart') {             $limitstart = $values[1];}
                     else if ($values[0] == 'limitcount') {             $limitcount = $values[1];}
@@ -498,6 +500,18 @@ class plgContentPhocaGallery extends CMSPlugin
 
 
                 if ($view == 'category') {
+                    //------- add by zhang, query category's id -------------
+                    if (!$category_alias) {
+                        $queryc = 'SELECT a.id'
+                            . ' FROM #__phocagallery_categories AS a'
+                            . ' WHERE a.alias = \'' . $category_alias . '\'';
+                        $db->setQuery($queryc);
+                        $outcome_data = $db->loadObjectList();
+                        if (!empty($outcome_data)) {
+                            $id = $outcome_data[0]->id;
+                        }
+                    }
+                    //----------------------------------
 
                     $this->_setPluginNumberCategoryView();
                     $layoutBI 	= new FileLayout('box_image', null, array('component' => 'com_phocagallery'));
